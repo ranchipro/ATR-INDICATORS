@@ -1,0 +1,23 @@
+//@version=6
+indicator(title="ATR as Percentage", shorttitle="ATR%", overlay=false, timeframe="", timeframe_gaps=true)
+
+length = input.int(title="Length", defval=14, minval=1)
+smoothing = input.string(title="Smoothing", defval="RMA", options=["RMA", "SMA", "EMA", "WMA"])
+
+// Smoothing function based on user selection
+ma_function(source, length) =>
+    switch smoothing
+        "RMA" => ta.rma(source, length)
+        "SMA" => ta.sma(source, length)
+        "EMA" => ta.ema(source, length)
+        => ta.wma(source, length)
+
+// Calculate True Range (TR) as percentage of price
+true_range = ta.tr(true)
+true_range_percent = (true_range / close) * 100
+
+// Apply smoothing to the percentage-based TR
+atr_percent = ma_function(true_range_percent, length)
+
+// Plot the ATR% indicator
+plot(atr_percent, title="ATR%", color=color.new(#1E88E5, 0))
