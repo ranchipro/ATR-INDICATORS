@@ -18,4 +18,6 @@ Built using **Pine Script v6**, this script offers flexibility in smoothing meth
 ## 📈 Formula
 
 The formula used is:
+ATR% = (True Range / Close Price) * 100
+
 
